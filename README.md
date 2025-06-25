@@ -1,68 +1,211 @@
-# CodeIgniter 4 Application Starter
+# Real Estate Management System
 
-## What is CodeIgniter?
+A comprehensive real estate management system built with CodeIgniter 4 framework. This application allows administrators to manage properties and handle property bookings from potential buyers/renters.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Features
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+### Admin Features
+- **Property Management**: Add, view, and manage property listings
+- **Booking Management**: View and manage property booking requests
+- **Image Upload**: Upload property images with automatic handling
+- **Dashboard**: Admin dashboard with property overview
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+### User Features
+- **Property Browsing**: View available properties with details
+- **Property Booking**: Book property viewings with contact information
+- **Responsive Design**: Mobile-friendly interface
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## Tech Stack
 
-## Installation & updates
+- **Backend**: CodeIgniter 4 (PHP Framework)
+- **Frontend**: Bootstrap 5, HTML5, CSS3, JavaScript
+- **Database**: MySQL
+- **Server**: Apache (XAMPP)
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## Prerequisites
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+Before installing this application, make sure you have:
 
-## Setup
+- **XAMPP** (or LAMP/WAMP) installed
+- **PHP 7.4+** 
+- **MySQL 5.7+**
+- **Composer** (for dependency management)
+- **Git** (for cloning the repository)
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## Installation
 
-## Important Change with index.php
+### 1. Clone the Repository
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+```bash
+git clone https://github.com/shyam9493/Real-Estate-Mini-Project.git
+cd Real-Estate-Mini-Project
+```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### 2. Move to XAMPP Directory
 
-**Please** read the user guide for a better explanation of how CI4 works!
+Move the project to your XAMPP htdocs folder:
 
-## Repository Management
+```bash
+# Windows
+move real-estate C:\xampp\htdocs\
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+# Linux/Mac
+sudo mv real-estate /opt/lampp/htdocs/
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 3. Install Dependencies
 
-## Server Requirements
+Navigate to the project directory and install Composer dependencies:
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+```bash
+cd C:\xampp\htdocs\real-estate
+composer install
+```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+### 4. Database Setup
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+1. **Start XAMPP Services**:
+   - Start Apache and MySQL from XAMPP Control Panel
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+2. **Create Database**:
+   - Open phpMyAdmin (http://localhost/phpmyadmin)
+   - Create a new database named `real_estate`
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+3. **Import Database**:
+   - Import the `real-estate.sql` file included in the project root
+   - Or create tables manually using the structure below
+
+### 5. Environment Configuration
+
+1. **Copy Environment File**:
+   ```bash
+   copy env .env
+   ```
+
+2. **Configure Database** in `.env` file:
+   ```
+   database.default.hostname = localhost
+   database.default.database = real_estate
+   database.default.username = root
+   database.default.password = 
+   database.default.DBDriver = MySQLi
+   ```
+
+3. **Set Base URL**:
+   ```
+   app.baseURL = 'http://localhost/Real-Estate-Mini-Project/'
+   ```
+
+### 6. Create Upload Directory
+
+Create the uploads directory for property images:
+
+```bash
+mkdir public\uploads
+```
+
+## Database Schema
+
+### Properties Table
+```sql
+CREATE TABLE properties (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type ENUM('flat', 'villa', 'plot') NOT NULL,
+    price DECIMAL(15,2) NOT NULL,
+    area_sqft DECIMAL(10,2),
+    address TEXT,
+    description TEXT,
+    image_path VARCHAR(500),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Bookings Table
+```sql
+CREATE TABLE bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    property_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    datetime DATETIME NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (property_id) REFERENCES properties(id)
+);
+```
+
+## Usage
+
+### 1. Access the Application
+
+Open your web browser and navigate to:
+- **Main Site**: http://localhost/real-estate/
+- **Admin Panel**: http://localhost/real-estate/admin
+
+### 2. Admin Functions
+
+**Add Property**:
+1. Go to `/admin`
+2. Fill in the property form
+3. Upload property image
+4. Submit to add property
+
+**View Bookings**:
+1. Go to `/admin/view_bookings`
+2. View all property booking requests
+
+### 3. User Functions
+
+**Browse Properties**:
+1. Visit the homepage
+2. View available properties
+3. Click on property for details
+
+**Book Property**:
+1. Go to property details page
+2. Fill in booking form
+3. Submit booking request
+
+## Project Structure
+
+```
+real-estate/
+├── app/
+│   ├── Controllers/
+│   │   ├── BookingController.php
+│   │   ├── Home.php
+│   │   └── PropertyController.php
+│   ├── Models/
+│   │   ├── BookingModel.php
+│   │   └── PropertyModel.php
+│   ├── Views/
+│   │   ├── Admin/
+│   │   │   ├── Index.php
+│   │   │   └── View_Bookings.php
+│   │   ├── User/
+│   │   │   └── view_property.php
+│   │   └── Index.php
+│   └── Config/
+│       └── Routes.php
+├── public/
+│   ├── uploads/
+│   └── index.php
+├── real-estate.sql
+└── README.md
+```
+
+## Key Routes
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/` | GET | Homepage |
+| `/admin` | GET | Admin dashboard |
+| `/admin/add_property` | POST | Add new property |
+| `/admin/view_bookings` | GET | View bookings |
+| `/book_now/view_property/{id}` | GET | Property details |
+| `/book_property` | POST | Submit booking |
+
+
+
+**Happy Coding! 🏠✨**
