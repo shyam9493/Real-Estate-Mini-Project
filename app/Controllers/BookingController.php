@@ -13,7 +13,7 @@ class BookingController extends BaseController
         $bookingModel = new BookingModel();
         $bookings = $bookingModel->findAll();
 
-        return view('bookings/index', ['bookings' => $bookings]);
+        return view('Admin/View_Bookings', ['bookings' => $bookings]);
     }
     public function create()
     {

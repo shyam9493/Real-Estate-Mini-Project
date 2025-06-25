@@ -14,7 +14,7 @@ class PropertyController extends BaseController
         $propertyModel = new PropertyModel();
         $properties = $propertyModel->findAll();
 
-        return view('properties/index', ['properties' => $properties]);
+        return view('Admin/Index', ['properties' => $properties]);
     }
     public function create()
     {
@@ -23,6 +23,14 @@ class PropertyController extends BaseController
     public function store()
     {
         $propertyModel = new PropertyModel();
+        $image = $this->request->getFile('image');
+        $imagePath = null;
+        if ($image->isValid() && !$image->hasMoved()) {
+         $newName = $image->getRandomName();
+         $image->move('public/uploads', $newName);
+         $imagePath = 'uploads/' . $newName;
+        }
+
         $data = [
             'name' => $this->request->getPost('name'),
             'type' => $this->request->getPost('type'),
@@ -30,7 +38,7 @@ class PropertyController extends BaseController
             'area_sqft' => $this->request->getPost('area_sqft'),
             'address' => $this->request->getPost('address'),
             'description' => $this->request->getPost('description'),
-            'image_path' => $this->request->getFile('image')->store(),
+            'image_path' => $imagePath,
             'created_at' => date('Y-m-d H:i:s')
         ];
         $propertyModel->insert($data);
