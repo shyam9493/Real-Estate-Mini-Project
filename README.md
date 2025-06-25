@@ -170,7 +170,7 @@ Open your web browser and navigate to:
 ## Project Structure
 
 ```
-real-estate/
+Real-Estate-Mini-Project/
 ├── app/
 │   ├── Controllers/
 │   │   ├── BookingController.php
