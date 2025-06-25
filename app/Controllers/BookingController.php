@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\BookingModel;
+use App\Models\PropertyModel;
 
 class BookingController extends BaseController
 {
@@ -17,14 +18,11 @@ class BookingController extends BaseController
     }
     public function bookNow()
     {
-        $bookingModel = new BookingModel();
-        $bookings = $bookingModel->findAll();
+         $propertyModel = new PropertyModel();
+        $properties = $propertyModel->findAll();
 
-        return view('User/Index', ['bookings' => $bookings]);
-    }
-    public function create()
-    {
-        return view('bookings/create');
+        return view('User/Index', ['properties' => $properties]);
+
     }
     public function store()
     {
@@ -37,7 +35,17 @@ class BookingController extends BaseController
             'datetime' => $this->request->getPost('datetime'),
             'created_at' => date('Y-m-d H:i:s')
         ];
-        $bookingModel->insert($data);
-        return redirect()->to('/bookings');
+        if($bookingModel->where('property_id', $data['property_id'])
+            ->where('email', $data['email'])
+            ->where('phone', $data['phone'])
+            ->first()) {
+            return redirect()->to('/book_now')->with('error', 'You have already booked this property.');
+        }
+        if($bookingModel->insert($data)){
+            return redirect()->to('/book_now')->with('success', 'Booking successful!');
+        } else {
+            return redirect()->to('/book_now')->with('error', 'Failed to book property. Please try again.');
+        }
+
     }
 }

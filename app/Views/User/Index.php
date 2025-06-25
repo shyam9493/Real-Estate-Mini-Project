@@ -39,7 +39,19 @@
 
 
 <body>
-
+<?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success alert-dismissible fade show " role="alert">
+            <?= session()->getFlashdata('success') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+    
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= session()->getFlashdata('error') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
 
     <main class="d-flex align-items-center justify-content-center text-center  p-5">
         <div class="">
@@ -52,18 +64,25 @@
             <h2 class="fw-bold">Properties</h2>
             
         </div>
-     <div class="row ">
+    <div class="row ">
 
             <?php 
-            for($i = 0; $i < 8; $i++) {
+            for($i = 0; $i < count($properties); $i++) {
             ?>
-                <div class="col-lg-4"> <svg aria-label="Placeholder" class="bd-placeholder-img rounded-circle" height="140" preserveAspectRatio="xMidYMid slice" role="img" width="140" xmlns="./image.png" 
-                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
-                    </svg>
-                    <h2 class="fw-normal">Heading</h2>
-                    <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
-                    <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                <div class="col-lg-4 border p-3 my-2 rounded row-gap-3 gap-3"> 
+                    <img src="<?php echo base_url($properties[$i]['image_path']); ?>" class="card-img-top" alt="Property Image" width="100%" height="200">
+                      
+                     <div class="card-body">
+                        <br />
+                            <h5 class="card-title">NAME: <?= ($properties[$i]['name']) ?></h5>
+                            <p class="card-text"><strong>PRIZE: $<?= ($properties[$i]['price']) ?></strong></p>
+                            <p class="card-text">TYPE : <?= ($properties[$i]['type']) ?></p>
+                            <p class="card-text">DESCRIPTION : <?= ($properties[$i]['description'])?></p>
+                            <a href="<?php echo base_url("book_now/view_property/".$properties[$i]['id'])?>" class="btn btn-primary">View Property</a>
+                        </div>
                 </div>
+                 
+                       
             <?php
             }
 

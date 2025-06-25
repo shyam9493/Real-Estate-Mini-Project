@@ -25,6 +25,8 @@
         <a href="/" class="link-body-emphasis text-decoration-none d-flex  align-items-center justify-content-center">
             <img src="/favi.png" alt="Logo" width="50"> <span class="fs-3 fw-bold text-white">Real Estate</span> </a>
     </header>
+    
+ 
     <section>
         <div class="mt-5">
             <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3  ">

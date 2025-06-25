@@ -32,20 +32,34 @@
 
 <body>
 
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+            <?= session()->getFlashdata('success') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+    
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+            <?= session()->getFlashdata('error') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
 
     <main>
         <div>
             <div class="px-4 py-5 mt-2 text-center">
                 <h1 class="display-5 fw-bold text-body-emphasis">Add property</h1>
                 <div class="col-lg-6 mx-auto">
-                    <form id="propertyForm" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+                    <form id="propertyForm" class="p-4 p-md-5 border rounded-3 bg-body-tertiary" action="<?php echo base_url('/admin/add_property'); ?>" method="POST" enctype="multipart/form-data">
+                       
                         <div class="mb-3">
                             <label for="propertyName" class="form-label">Property Name</label>
-                            <input type="text" class="form-control" id="propertyName" placeholder="Enter property name" required>
+                            <input type="text" class="form-control" id="propertyName" name="property_name" placeholder="Enter property name" required>
                         </div>
                         <div class="mb-3">
                             <label for="propertyType" class="form-label">Property Type</label>
-                            <select class="form-select" id="propertyType" required>
+                            <select class="form-select" id="propertyType" name="property_type" required>
                                 <option value="" disabled selected>Select property type</option>
                                 <option value="flat">Flat</option>
                                 <option value="villa">Villa</option>
@@ -53,27 +67,25 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="location" placeholder="Enter location" required>
+                            <label for="area" class="form-label">Area</label>
+                            <input type="number" class="form-control" id="area" name="area" placeholder="Enter Area (sqft)" required>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="price" placeholder="Enter price" required>
+                            <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" required>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" rows="3" placeholder="Enter property description" required></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter property description" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="imageUpload" class="form-label">Upload Images</label>
-                            <input type="file" class="form-control" id="imageUpload" multiple accept="image/*">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control" id="address" name="address" rows="3" placeholder="Enter property address" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="contactInfo" class="form-label">Contact Information</label>
-                            <input type="text" class="form-control" id="contactInfo" placeholder="Enter your contact information" required>
+                            <label for="imageUpload" class="form-label">Upload Image</label>
+                            <input type="file" class="form-control" id="imageUpload" name="images" accept="image/*">
                         </div>
-
-        
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -89,15 +101,22 @@
             <div class="row ">
 
             <?php 
-            for($i = 0; $i < 8; $i++) {
+            for($i = 0; $i < count($properties); $i++) {
             ?>
-                <div class="col-lg-4"> <svg aria-label="Placeholder" class="bd-placeholder-img rounded-circle" height="140" preserveAspectRatio="xMidYMid slice" role="img" width="140" xmlns="./image.png" 
-                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
-                    </svg>
-                    <h2 class="fw-normal">Heading</h2>
-                    <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
-                    <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                <div class="col-lg-4 border p-3 my-2 rounded row-gap-3 gap-3"> 
+                    <img src="<?php echo base_url($properties[$i]['image_path']); ?>" class="card-img-top" alt="Property Image" width="100%" height="200">
+                      
+                     <div class="card-body">
+                        <br />
+                            <h5 class="card-title">NAME: <?= ($properties[$i]['name']) ?></h5>
+                            <p class="card-text"><strong>PRIZE: $<?= ($properties[$i]['price']) ?></strong></p>
+                            <p class="card-text">TYPE : <?= ($properties[$i]['type']) ?></p>
+                            <p class="card-text">DESCRIPTION : <?= ($properties[$i]['description'])?></p>
+                            
+                        </div>
                 </div>
+                 
+                       
             <?php
             }
 
