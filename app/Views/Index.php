@@ -43,8 +43,9 @@
 
                         We believe home is more than just a place — it’s where your story begins. Let’s help you find
                         yours today.</p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3"> <button type="button"
-                            class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Book Now</button> </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                        <a href="<?php  echo base_url("/book_now")?>"><button type="button"
+                            class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Book Now</button> </a></div>
                 </div>
                 <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg"> <img class="rounded-lg-3"
                         src="image.png" alt="" width="720"> </div>
