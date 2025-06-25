@@ -52,13 +52,13 @@
                             <img src="<?= base_url($property['image_path']) ?>" class="img-fluid" alt="Property Image" style="width: 400px; height: 300px; object-fit: cover;">
                         </div>
                         <div class="col p-4 d-flex flex-column fs-6"> 
-                            <strong class="d-inline-block mb-2 text-primary-emphasis fs-1"><?= esc($property['name']) ?></strong>
+                            <strong class="d-inline-block mb-2 text-primary-emphasis fs-1"><?= ($property['name']) ?></strong>
                           
-                            <div class="mb-2 text-body-secondary"><strong>Type:</strong> <?= esc($property['type']) ?></div>
+                            <div class="mb-2 text-body-secondary"><strong>Type:</strong> <?= ($property['type']) ?></div>
                             <div class="mb-2 text-body-secondary"><strong>Price:</strong> $<?= number_format($property['price'], 2) ?></div>
-                            <div class="mb-2 text-body-secondary"><strong>Area:</strong> <?= esc($property['area_sqft']) ?> sqft</div>
-                            <div class="mb-2 text-body-secondary"><strong>Address:</strong> <?= esc($property['address']) ?: 'Not specified' ?></div>
-                            <div class="mb-2 text-body-secondary"><strong>Description:</strong> <?= esc($property['description']) ?></div>
+                            <div class="mb-2 text-body-secondary"><strong>Area:</strong> <?= ($property['area_sqft']) ?> sqft (<?= number_format($property['area_sqft'] * 0.092903, 2) ?> sqm)</div>
+                            <div class="mb-2 text-body-secondary"><strong>Address:</strong> <?= ($property['address']) ?: 'Not specified' ?></div>
+                            <div class="mb-2 text-body-secondary"><strong>Description:</strong> <?= ($property['description']) ?></div>
                         </div>
                     </div>
                 </div>
